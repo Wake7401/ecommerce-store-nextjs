@@ -7,7 +7,16 @@ import CartItem from "./components/cart-item";
 import Summary from "./components/summary";
 
 const CartPage = () => {
+  const [isMounted, setIsMounted] = useState(false);
   const cart = useCart();
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return null;
+  }
 
   return (
     <div className="bg-white">
@@ -25,7 +34,7 @@ const CartPage = () => {
                 ))}
               </ul>
             </div>
-            <Summary/>
+            <Summary />
           </div>
         </div>
       </Container>
