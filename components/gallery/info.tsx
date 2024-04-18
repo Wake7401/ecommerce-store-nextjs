@@ -27,6 +27,18 @@ const Info: React.FC<InfoProps> = ({ data }) => {
       </div>
       <hr className="my-4" />
       <div className="flex flex-col gap-y-6">
+        <div className="flex items-center gap-x-4 text-gray-600">
+          <div
+            dangerouslySetInnerHTML={{ __html: data?.description || "" }}
+          ></div>
+        </div>
+      </div>
+      <hr className="my-4" />
+      <div className="flex flex-col gap-y-6">
+        <div className="flex items-center gap-x-4">
+          <h3 className="font-semibold text-black">Quantity:</h3>
+          <div>{data?.quantity}</div>
+        </div>
         <div className="flex items-center gap-x-4">
           <h3 className="font-semibold text-black">Size:</h3>
           <div>{data?.size?.name}</div>
@@ -40,10 +52,21 @@ const Info: React.FC<InfoProps> = ({ data }) => {
         </div>
       </div>
       <div className="mt-10 flex items-center gap-x-3">
-        <Button onClick={onAddToCart} className="flex items-center gap-x-2">
-          Add To Cart
-          <ShoppingCart />
-        </Button>
+        {data?.quantity === 0 ? (
+          <Button
+            onClick={onAddToCart}
+            className="flex items-center gap-x-2"
+            disabled
+          >
+            Add To Cart
+            <ShoppingCart />
+          </Button>
+        ) : (
+          <Button onClick={onAddToCart} className="flex items-center gap-x-2">
+            Add To Cart
+            <ShoppingCart />
+          </Button>
+        )}
       </div>
     </div>
   );

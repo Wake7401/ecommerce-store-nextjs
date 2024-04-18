@@ -3,12 +3,18 @@ import getProducts from "@/actions/get-products";
 import Billboard from "@/components/ui/billboard";
 import Container from "@/components/ui/container";
 import ProductList from "@/components/ui/product-list";
+import type { Metadata } from 'next'
+ 
+export const metadata: Metadata = {
+  title: 'STORE',
+  description: 'Store created by Dang Anh Kiet',
+}
 
 export const revalidate = 0;
 
 const HomePage = async () => {
   const products = await getProducts({ isFeatured: true });
-  const billboard = await getBillboard("55956b2e-9792-40e7-8322-ae864018aee9");
+  const billboard = await getBillboard("5f1e6a2f-39e5-475a-8e17-f83dd4fd85b7");
 
   return (
     <Container>

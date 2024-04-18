@@ -8,6 +8,8 @@ import Filter from "./components/filter";
 import NoResult from "@/components/ui/no-result";
 import ProductCard from "@/components/ui/product-card";
 import MobileFilter from "./components/mobile-filter";
+import type { Metadata } from "next";
+import { cache } from "react";
 
 export const revalidate = 0;
 
@@ -21,6 +23,18 @@ interface CategoryPageProps {
   };
 }
 
+const getCategoryProduct = cache(getCategory)
+
+export async function generateMetadata(
+  { params }: CategoryPageProps,
+): Promise<Metadata> {
+  const category = await getCategoryProduct(params.categoryId);
+
+  return {
+    title: category?.name,
+    description: category?.billboard.label,
+  };
+}
 const CategoryPage: React.FC<CategoryPageProps> = async ({
   params,
   searchParams,
@@ -33,7 +47,7 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
 
   const sizes = await getSizes();
   const colors = await getColors();
-  const category = await getCategory(params.categoryId);
+  const category = await getCategoryProduct(params.categoryId);
 
   return (
     <div className="bg-white">

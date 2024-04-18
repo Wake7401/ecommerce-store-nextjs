@@ -4,6 +4,8 @@ import Gallery from "@/components/gallery";
 import Info from "@/components/gallery/info";
 import Container from "@/components/ui/container";
 import ProductList from "@/components/ui/product-list";
+import type { Metadata } from "next";
+import { cache } from "react";
 
 interface ProductPageProps {
   params: {
@@ -11,8 +13,21 @@ interface ProductPageProps {
   };
 }
 
+const getCategoryProduct = cache(getProduct)
+
+export async function generateMetadata(
+  { params }: ProductPageProps,
+): Promise<Metadata> {
+  const product = await getCategoryProduct(params.productId);
+
+  return {
+    title: product?.name,
+    description: product?.description,
+  };
+}
+
 const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
-  const product = await getProduct(params.productId);
+  const product = await getCategoryProduct(params.productId);
   const suggestedProducts = await getProducts({
     categoryId: product?.category?.id,
   });
